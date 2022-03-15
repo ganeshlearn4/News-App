@@ -23,9 +23,11 @@ class SplashActivity : AppCompatActivity() {
             if (account == null) {
                 val signInIntent = Intent(this, LoginActivity::class.java)
                 startActivity(signInIntent)
+                finish()
             } else {
                 val homeIntent = Intent(this, HomeActivity::class.java)
                 startActivity(homeIntent)
+                finish()
             }
         }, 1000)
     }
