@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="article"
+            type="com.newsapp.data.model.Article" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="6dp"
+        app:cardElevation="10dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+
+            <ImageView
+                android:id="@+id/newsImage"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/bookmark"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Bookmark"
+                app:layout_constraintEnd_toEndOf="@id/newsImage"
+                app:layout_constraintStart_toStartOf="@id/newsImage"
+                app:layout_constraintTop_toBottomOf="@id/newsImage" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/delete"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Delete"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="@id/newsImage"
+                app:layout_constraintStart_toStartOf="@id/newsImage"
+                app:layout_constraintTop_toBottomOf="@id/bookmark" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/newsTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:gravity="center"
+                android:text="@{article.title}"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/newsImage"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Space
+                android:id="@+id/space0"
+                android:layout_width="0dp"
+                android:layout_height="8dp"
+                app:layout_constraintBottom_toTopOf="@id/newsDescription"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/newsImage"
+                app:layout_constraintTop_toBottomOf="@id/newsTitle" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/newsDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:gravity="center"
+                android:text="@{article.description}"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/newsImage"
+                app:layout_constraintTop_toBottomOf="@id/space0" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/newsSource"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:gravity="end"
+                android:text="@{article.source.name}"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/newsImage"
+                app:layout_constraintTop_toBottomOf="@id/newsDescription" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/newsPublishedDateTime"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="@{article.publishedAt}"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/newsImage"
+                app:layout_constraintTop_toBottomOf="@id/newsSource" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>
