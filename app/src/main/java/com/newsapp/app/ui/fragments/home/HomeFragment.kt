@@ -128,6 +128,11 @@ class HomeFragment : Fragment(), NewsAdapter.OnBookMarkClickListener,
                     _binding.progressBar.visibility = View.GONE
                     Toast.makeText(requireContext(), "Error loading news", Toast.LENGTH_LONG).show()
                 }
+
+                RequestStatus.NETWORK_ERROR -> {
+                    _binding.progressBar.visibility = View.GONE
+                    Toast.makeText(requireContext(), "Network Error while loading news", Toast.LENGTH_LONG).show()
+                }
             }
         }
 

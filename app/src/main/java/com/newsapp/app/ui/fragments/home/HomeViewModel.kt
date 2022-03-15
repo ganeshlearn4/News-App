@@ -10,6 +10,7 @@ import com.newsapp.enums.RequestStatus
 import com.newsapp.interfaces.DataHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -42,19 +43,23 @@ class HomeViewModel @Inject constructor(
 
         viewModelScope.launch {
             requestStatus.postValue(RequestStatus.LOADING)
-            val response = repository.fetchNewsWithPagination(
-                apiKey,
-                pageSize.value!!,
-                pageNumber.value!!,
-                Constants.news_source
-            )
-            if (response.isSuccessful && response.body() != null && response.body()?.status ?: "" == "ok") {
-                totalArticles.postValue(response.body()!!.totalResults)
-                allArticles.postValue(ArrayList(response.body()!!.articles))
-                newArticles.postValue(ArrayList(response.body()!!.articles))
-                requestStatus.postValue(RequestStatus.SUCCESS)
-            } else {
-                requestStatus.postValue(RequestStatus.ERROR)
+            try {
+                val response = repository.fetchNewsWithPagination(
+                    apiKey,
+                    pageSize.value!!,
+                    pageNumber.value!!,
+                    Constants.news_source
+                )
+                if (response.isSuccessful && response.body() != null && response.body()?.status ?: "" == "ok") {
+                    totalArticles.postValue(response.body()!!.totalResults)
+                    allArticles.postValue(ArrayList(response.body()!!.articles))
+                    newArticles.postValue(ArrayList(response.body()!!.articles))
+                    requestStatus.postValue(RequestStatus.SUCCESS)
+                } else {
+                    requestStatus.postValue(RequestStatus.ERROR)
+                }
+            } catch (e: Exception) {
+                requestStatus.postValue(RequestStatus.NETWORK_ERROR)
             }
         }
     }
@@ -65,17 +70,21 @@ class HomeViewModel @Inject constructor(
 
         viewModelScope.launch {
             requestStatus.postValue(RequestStatus.LOADING)
-            val response = repository.fetchNewsWithPagination(
-                apiKey,
-                pageSize.value!!,
-                pageNumber.value!!,
-                Constants.news_source
-            )
-            if (response.isSuccessful && response.body() != null && response.body()?.status ?: "" == "ok") {
-                newArticles.postValue(ArrayList(response.body()!!.articles))
-                requestStatus.postValue(RequestStatus.SUCCESS)
-            } else {
-                requestStatus.postValue(RequestStatus.ERROR)
+            try {
+                val response = repository.fetchNewsWithPagination(
+                    apiKey,
+                    pageSize.value!!,
+                    pageNumber.value!!,
+                    Constants.news_source
+                )
+                if (response.isSuccessful && response.body() != null && response.body()?.status ?: "" == "ok") {
+                    newArticles.postValue(ArrayList(response.body()!!.articles))
+                    requestStatus.postValue(RequestStatus.SUCCESS)
+                } else {
+                    requestStatus.postValue(RequestStatus.ERROR)
+                }
+            } catch (e: IOException) {
+                requestStatus.postValue(RequestStatus.NETWORK_ERROR)
             }
         }
     }
