@@ -64,6 +64,11 @@ class HomeFragment : Fragment(), NewsAdapter.OnBookMarkClickListener,
         if (_binding.recyclerView.adapter != null) {
             newsAdapter.setArticles(viewModel.allArticles.value!!)
         }
+
+        if (viewModel.requestStatus.value == RequestStatus.NETWORK_ERROR || viewModel.requestStatus.value == RequestStatus.ERROR) {
+            Toast.makeText(requireContext(), "Retrying", Toast.LENGTH_LONG).show()
+            viewModel.getNews()
+        }
     }
 
     private fun setListeners() {
@@ -119,6 +124,8 @@ class HomeFragment : Fragment(), NewsAdapter.OnBookMarkClickListener,
                         newsAdapter.setArticles(viewModel.newArticles.value!!)
 
                         _binding.recyclerView.adapter = newsAdapter
+
+                        Toast.makeText(requireContext(), "News Loaded", Toast.LENGTH_LONG).show()
                     } else {
                         newsAdapter.addArticles(viewModel.newArticles.value!!)
                     }
@@ -131,7 +138,11 @@ class HomeFragment : Fragment(), NewsAdapter.OnBookMarkClickListener,
 
                 RequestStatus.NETWORK_ERROR -> {
                     _binding.progressBar.visibility = View.GONE
-                    Toast.makeText(requireContext(), "Network Error while loading news", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "Network Error while loading news",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
             }
         }

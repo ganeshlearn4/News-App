@@ -36,7 +36,7 @@ class HomeViewModel @Inject constructor(
         getNews()
     }
 
-    private fun getNews() {
+    fun getNews() {
         pageNumber.value = 1
         totalArticlesLoaded.value = 0
         newArticles.value?.clear()
